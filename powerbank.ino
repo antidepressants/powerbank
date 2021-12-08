@@ -76,7 +76,7 @@ class VoltageControl{
     }
 };
 
-InputDevice SolarPanel(A0,"Panel  "), Battery(A1,"Battery"), SolarPanelOut(A6,""), BatteryOut(A7, "");
+InputDevice SolarPanel(A0,"Panel  "), Battery(A1,"Battery");
 OutputDeivce Coil(A2);
 VoltageControl PanelController(2), BatteryController(4);
 
@@ -89,8 +89,8 @@ void loop() {
   SolarPanel.displayVoltage();
   Battery.displayVoltage();
 
-  PanelController.modeControl(Battery.measureVoltage(),7.4,SolarPanel.measureVoltage(),SolarPanelOut.measureVoltage(),7.4);
-  BatteryController.modeControl(0,1,Battery.measureVoltage(),BatteryOut.measureVoltage(),5);
+  PanelController.modeControl(Battery.measureVoltage(),7.4,SolarPanel.measureVoltage(),7.4);
+  BatteryController.modeControl(0,1,Battery.measureVoltage(),5);
 
   Coil.AC();
 }
