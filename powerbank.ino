@@ -5,12 +5,9 @@ LiquidCrystal_I2C lcd(0x27,16,2);
 int inIndex = 0;
 
 class InputDevice{
+  int pin,index;
+  String name;
   public:
-    int pin;
-    String name;
-
-    int index;
-
     float measureVoltage(){
       int voltage = analogRead(pin);
       return ((voltage*5.00)/1024.00)*2;
@@ -32,9 +29,8 @@ class InputDevice{
 };
 
 class OutputDeivce{
+  int pins,pin[2];
   public:
-    int pins,pin[2];
-
     void AC(){
         digitalWrite(pin[0],1);
         digitalWrite(pin[1],0);
@@ -49,9 +45,8 @@ class OutputDeivce{
 };
 
 class VoltageControl{
+  int pin[2];
   public:
-    int pin[2];
-
     void voltageControl(float vIn, float target){
       if(vIn<target){
         digitalWrite(pin[1],1);
