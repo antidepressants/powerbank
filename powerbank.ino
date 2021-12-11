@@ -81,7 +81,7 @@ void loop() {
   SolarPanel.displayVoltage();
   Battery.displayVoltage();
 
-  PanelController.modeControl(Battery.measureVoltage(),7.4,1.5,SolarPanel.measureVoltage(),Battery.measureVoltage()+1);
+  PanelController.modeControl(Battery.measureVoltage(),7.4,3,SolarPanel.measureVoltage(),Battery.measureVoltage()+1);
   BatteryController.modeControl(0,1,0,Battery.measureVoltage(),6);
 
   Coil.AC();
