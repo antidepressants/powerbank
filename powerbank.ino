@@ -49,7 +49,7 @@ class VoltageControl{
   public:
     void voltageControl(float vIn, float target){
       float dutyCycle = 1-(1/target)*vIn;
-      analogWrite(dutyCycle*225);
+      analogWrite(pin[1],dutyCycle*225);
     }
 
     void modeControl(float vTarget, float maxVoltage, float minVoltage, float vIn, float target){
