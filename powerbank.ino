@@ -55,8 +55,8 @@ class VoltageControl{
       }
     }
 
-    void modeControl(float vTarget, float maxVoltage, float vIn, float target){
-      if(vTarget>=maxVoltage){
+    void modeControl(float vTarget, float maxVoltage, float minVoltage, float vIn, float target){
+      if(vTarget>=maxVoltage || vTarget<minVoltage){
         digitalWrite(pin[0],0);
       }
       else{
@@ -84,8 +84,8 @@ void loop() {
   SolarPanel.displayVoltage();
   Battery.displayVoltage();
 
-  PanelController.modeControl(Battery.measureVoltage(),7.4,SolarPanel.measureVoltage(),7.4);
-  BatteryController.modeControl(0,1,Battery.measureVoltage(),5);
+  PanelController.modeControl(Battery.measureVoltage(),7.4,1.5,SolarPanel.measureVoltage(),Battery.measureVoltage()+1);
+  BatteryController.modeControl(0,1,0,Battery.measureVoltage(),6);
 
   Coil.AC();
 }
