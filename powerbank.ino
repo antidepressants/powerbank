@@ -48,11 +48,8 @@ class VoltageControl{
   int pin[2];
   public:
     void voltageControl(float vIn, float target){
-      if(vIn<target){
-        digitalWrite(pin[1],1);
-        delay(10);
-        digitalWrite(pin[1],0);
-      }
+      float dutyCycle = 1-(1/target)*vIn;
+      analogWrite(dutyCycle*225);
     }
 
     void modeControl(float vTarget, float maxVoltage, float minVoltage, float vIn, float target){
@@ -73,7 +70,7 @@ class VoltageControl{
 
 InputDevice SolarPanel(A0,"Panel  "), Battery(A1,"Battery");
 OutputDeivce Coil(A2);
-VoltageControl PanelController(2), BatteryController(4);
+VoltageControl PanelController(5), BatteryController(9);
 
 void setup() {
   lcd.init();
