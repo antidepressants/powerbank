@@ -80,6 +80,7 @@ void setup() {
   lcd.backlight();
 }
 
+
 void loop() {
   SolarPanel.displayVoltage();
   Battery.displayVoltage();
