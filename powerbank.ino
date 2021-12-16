@@ -47,8 +47,8 @@ class OutputDeivce{
 class VoltageControl{
   int pin[2];
   public:
-    void voltageControl(float vIn, float target){
-      int val = (vIn<target)?map(vIn,3,target,170,30):0;
+    void voltageControl(float vIn, float minVoltage,float target){
+      int val = (vIn<target)?map(vIn,minVoltage,target,170,30):0;
       aalogWrite(pin[1],val);
     }
 
@@ -58,7 +58,7 @@ class VoltageControl{
       }
       else{
         digitalWrite(pin[0],1);
-        voltageControl(vIn, target);
+        voltageControl(vIn, minVoltage,target);
       }
     }
 
