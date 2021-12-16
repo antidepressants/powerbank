@@ -49,7 +49,7 @@ class VoltageControl{
   public:
     void voltageControl(float vIn, float minVoltage,float target){
       int val = (vIn<target)?map(vIn,minVoltage,target,170,30):0;
-      aalogWrite(pin[1],val);
+      analogWrite(pin[1],val);
     }
 
     void modeControl(float vTarget, float maxVoltage, float minVoltage, float vIn, float target){
