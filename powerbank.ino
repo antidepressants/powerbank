@@ -48,7 +48,7 @@ class VoltageControl{
   int pin[2];
   public:
     void voltageControl(float vIn, float minVoltage,float target){
-      int val = (vIn<target)?map(vIn,minVoltage,target,170,30):0;
+      int val = (vIn<target)?map(vIn,minVoltage,target,255,30):0;
       analogWrite(pin[1],val);
     }
 
@@ -82,7 +82,7 @@ void loop() {
   Battery.displayVoltage();
 
   PanelController.modeControl(Battery.measureVoltage(),7.4,3,SolarPanel.measureVoltage(),Battery.measureVoltage()+1);
-  BatteryController.modeControl(0,1,0,Battery.measureVoltage(),6);
+  BatteryController.modeControl(0,1,0,Battery.measureVoltage(),8);
 
   Coil.AC();
 }
