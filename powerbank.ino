@@ -38,9 +38,9 @@ class OutputDeivce{
         digitalWrite(pin[1],1);
     }
 
-    OutputDeivce(int pin){
+    OutputDeivce(int pin1, int pin2){
       this->pin[0]=pin;
-      this->pin[1]=pin+1;
+      this->pin[1]=pin2;
     }
 };
 
@@ -62,15 +62,15 @@ class VoltageControl{
       }
     }
 
-    VoltageControl(int pin){
-      this->pin[0] = pin;   //on off
-      this->pin[1] = pin+1; //step up
+    VoltageControl(int pin1, pin2){
+      this->pin[0] = pin1;   //on off
+      this->pin[1] = pin2; //step up
     }
 };
 
 InputDevice SolarPanel(A0,"Panel  "), Battery(A1,"Battery");
-OutputDeivce Coil(7);
-VoltageControl PanelController(5), BatteryController(9);
+OutputDeivce Coil(A3,A6);
+VoltageControl PanelController(5,6), BatteryController(9,10);
 
 void setup() {
   lcd.init();
