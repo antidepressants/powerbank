@@ -69,7 +69,7 @@ class VoltageControl{
 };
 
 InputDevice SolarPanel(A0,"Panel  "), Battery(A1,"Battery");
-OutputDeivce Coil(A3,A6);
+OutputDeivce Coil(A2,A7);
 VoltageControl PanelController(5,6), BatteryController(9,10);
 
 void setup() {
