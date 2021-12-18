@@ -62,7 +62,7 @@ class VoltageControl{
       }
     }
 
-    VoltageControl(int pin1, pin2){
+    VoltageControl(int pin1, int pin2){
       this->pin[0] = pin1;   //on off
       this->pin[1] = pin2; //step up
     }
