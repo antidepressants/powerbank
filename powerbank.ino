@@ -48,16 +48,16 @@ class VoltageControl{
   int pin[2];
   public:
     void voltageControl(float vIn, float minVoltage,float target){
-      int val = (vIn<target)?map(vIn,minVoltage,target,255,30):0;
+      int val = (vIn<target)?map(vIn,minVoltage,target,255,0):0;
       analogWrite(pin[1],val);
     }
 
     void modeControl(float vTarget, float maxVoltage, float minVoltage, float vIn, float target){
-      if(vTarget>=maxVoltage || vTarget<minVoltage){
+      if(vTarget>=maxVoltage){
         digitalWrite(pin[0],0);
       }
       else{
-        digitalWrite(pin[0],1);
+        analogWrite(pin[0],255);
         voltageControl(vIn, minVoltage,target);
       }
     }
@@ -81,8 +81,8 @@ void loop() {
   SolarPanel.displayVoltage();
   Battery.displayVoltage();
 
-  PanelController.modeControl(Battery.measureVoltage(),7.4,3,SolarPanel.measureVoltage(),Battery.measureVoltage()+1);
-  BatteryController.modeControl(0,1,0,Battery.measureVoltage(),8);
+  PanelController.modeControl(Battery.measureVoltage(),7.4,0,SolarPanel.measureVoltage(),Battery.measureVoltage()+1);
+  BatteryController.modeControl(0,1,0,Battery.measureVoltage(),5);
 
   Coil.AC();
 }
