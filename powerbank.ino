@@ -6,8 +6,10 @@ int inIndex = 0;
 
 class InputDevice{
   int pin,index;
+  
   String name;
   public:
+    float vMax;
     float measureVoltage(){
       int voltage = analogRead(pin);
       return ((voltage*5.00)/1024.00)*2;
@@ -16,15 +18,27 @@ class InputDevice{
     void displayVoltage(){
       lcd.setCursor(0,index);
       lcd.print(name);
-      lcd.print("   ");
+      lcd.setCursor(11,index);
       lcd.print(measureVoltage());
-      lcd.print(" V");
+      lcd.setCursor(15,index);
+      lcd.print("V");
     }
 
-    InputDevice(int pin, String name){
+    void displayPercentage(){
+      int percentage = (measureVoltage()/vMax)*100;
+      percentage = (percentage<100)?percentage:100;
+      lcd.setCursor(0,index);
+      lcd.print(name);
+      lcd.setCursor(11,index);
+      lcd.print(percentage);
+      lcd.print("%");
+    }
+
+    InputDevice(int pin, String name, float maxVoltage){
       this->pin = pin;
       this->name = name;
       this->index = inIndex++;
+      this->vMax = maxVoltage;
     }
 };
 
@@ -48,7 +62,7 @@ class VoltageControl{
   int pin[2];
   public:
     void voltageControl(float vIn, float minVoltage,float target){
-      int val = (vIn<target)?map(vIn,minVoltage,target,255,0):0;
+      int val = (vIn<target)?map(vIn,minVoltage,target,155,0):0;
       analogWrite(pin[1],val);
     }
 
@@ -68,8 +82,8 @@ class VoltageControl{
     }
 };
 
-InputDevice SolarPanel(A0,"Panel  "), Battery(A1,"Battery");
-OutputDeivce Coil(A2,A7);
+InputDevice SolarPanel(A0,"Panel",9), BatteryInit(A2,"Battery",7.8), Battery(A1,"Battery",7.8);
+OutputDeivce Coil(A6,A7);
 VoltageControl PanelController(5,6), BatteryController(9,10);
 
 void setup() {
@@ -79,10 +93,10 @@ void setup() {
 
 void loop() {
   SolarPanel.displayVoltage();
-  Battery.displayVoltage();
+  BatteryInit.displayPercentage();
 
-  PanelController.modeControl(Battery.measureVoltage(),7.4,0,SolarPanel.measureVoltage(),Battery.measureVoltage()+1);
-  BatteryController.modeControl(0,1,0,Battery.measureVoltage(),5);
+  PanelController.modeControl(BatteryInit.measureVoltage(),BatteryInit.vMax,0,SolarPanel.measureVoltage(),BatteryInit.measureVoltage()+1);
+  BatteryController.modeControl(0,1,0,Battery.measureVoltage(),7);
 
   Coil.AC();
 }
