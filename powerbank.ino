@@ -62,7 +62,7 @@ class VoltageControl{
   int pin[2];
   public:
     void voltageControl(float vIn, float minVoltage,float target){
-      int val = (vIn<target)?map(vIn,minVoltage,target,155,0):0;
+      int val = (vIn<target)?map(vIn,minVoltage,target,200,0):0;
       analogWrite(pin[1],val);
     }
 
@@ -72,7 +72,7 @@ class VoltageControl{
       }
       else{
         analogWrite(pin[0],255);
-        voltageControl(vIn, minVoltage,target);
+        voltageControl(vIn, minVoltage, target);
       }
     }
 
@@ -82,7 +82,7 @@ class VoltageControl{
     }
 };
 
-InputDevice SolarPanel(A0,"Panel",9), BatteryInit(A2,"Battery",7.8), Battery(A1,"Battery",7.8);
+InputDevice SolarPanel(A0,"Panel",9), BatteryInit(A2,"Battery",8), Battery(A1,"Battery",8);
 OutputDeivce Coil(A6,A7);
 VoltageControl PanelController(5,6), BatteryController(9,10);
 
@@ -96,7 +96,7 @@ void loop() {
   BatteryInit.displayPercentage();
 
   PanelController.modeControl(BatteryInit.measureVoltage(),BatteryInit.vMax,0,SolarPanel.measureVoltage(),BatteryInit.measureVoltage()+1);
-  BatteryController.modeControl(0,1,0,Battery.measureVoltage(),7);
+  BatteryController.modeControl(0,1,0,Battery.measureVoltage(),Battery.vMax);
 
   Coil.AC();
 }
