@@ -46,10 +46,10 @@ class OutputDeivce{
   int pins,pin[2];
   public:
     void AC(){
-        digitalWrite(pin[0],1);
-        digitalWrite(pin[1],0);
-        digitalWrite(pin[0],0);
-        digitalWrite(pin[1],1);
+        analogWrite(pin[0],225);
+        analogWrite(pin[1],0);
+        analogWrite(pin[0],0);
+        analogWrite(pin[1],225);
     }
 
     OutputDeivce(int pin1, int pin2){
@@ -95,8 +95,8 @@ void loop() {
   SolarPanel.displayVoltage();
   BatteryInit.displayPercentage();
 
-  PanelController.modeControl(BatteryInit.measureVoltage(),BatteryInit.vMax,0,SolarPanel.measureVoltage(),BatteryInit.measureVoltage()+1);
-  BatteryController.modeControl(0,1,0,Battery.measureVoltage(),Battery.vMax);
+  PanelController.modeControl(BatteryInit.measureVoltage(),BatteryInit.vMax,0,SolarPanel.measureVoltage(),8);
+  BatteryController.modeControl(0,1,0,Battery.measureVoltage(),7);
 
   Coil.AC();
 }
